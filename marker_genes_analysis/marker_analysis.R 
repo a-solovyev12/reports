@@ -1,0 +1,81 @@
+#!/usr/bin/env Rscript 
+
+### generate violin plots for all marker genes ###
+
+
+ep_stem_cells = ["ENSG00000139292", "ENSG00000183734", "ENSG00000148600", "ENSG00000023445", "ENSG00000101335"]
+ep_stem_cells_names = ["LGR5", "ASCL2", "CDHR1", "BIRC3", "MYL9"]
+
+paneth_cells = ["ENSG00000090382", "ENSG00000164816"]
+paneth_cells_names = ["LYZ", "DEFA5"]
+
+endocrine_cells = ["ENSG00000163499"]
+endocrine_cells_names = ["CRYBA2"]
+
+absorptive_cells = ["ENSG00000104267", "ENSG00000090402"]
+absorptive_cells_names = ["CA2", "SI"]
+
+goblet_cells = ["ENSG00000198788", "ENSG00000179914", "ENSG00000155850", "ENSG00000016602"]
+goblet_cells_names = ["MUC2", "ITLN1", "SLC26A2", "CLCA4"]
+
+enterocyte_cells = ["ENSG00000142959", "ENSG00000168748", "ENSG00000107954"]
+enterocyte_cells_names = ["BEST4", "CA7","NEURL1"]
+
+tuft_cells = ["ENSG00000185507", "ENSG00000143416"]
+tuft_cells_names = ["IRF7","SELENBP1"]
+
+endothelial_cells = ["ENSG00000135218"]
+endothelial_cells_names = ["CD36"]
+
+myofibr_cells = ["ENSG00000142156", "ENSG00000142173"]
+myofibr_names = ["COL6A1", "COL6A2"]
+
+b_cells = ["ENSG00000148773", "ENSG00000196092", "ENSG00000156738"]
+b_cells_names = ["MKI67", "PAX5", "MS4A1"]
+
+plasma_cells = ["ENSG00000254709"]
+plasma_cells_names = ["IGLL5"]
+
+cd4_T_cells = ["ENSG00000167286", "ENSG00000116824", "ENSG00000010610"]
+cd4_T_cells_names = ["CD3D", "CD2", "CD4"]
+
+cd8_T_cells = ["ENSG00000074416", "ENSG00000149591", "ENSG00000167286", "ENSG00000153563", "ENSG00000116824"] 
+cd8_T_cells_names = ["MGLL", "TAGLN","CD3D","CD8A","CD2"]
+
+macrophages = ["ENSG00000170458"]
+macrophages_names = ["CD14"]
+
+
+data = [
+[ep_stem_cells, ep_stem_cells_names, "epithelial_stem_cells"],
+[paneth_cells, paneth_cells_names, "paneth_cells"],
+[endocrine_cells, endocrine_cells_names, "endocrine_cells"],
+[absorptive_cells, absorptive_cells_names, "absorptive_cells"],
+[goblet_cells, goblet_cells_names, "goblet_cells"],
+[enterocyte_cells, enterocyte_cells_names, "enterocyte_cells"],
+[tuft_cells, tuft_cells_names, "tuft_cells"], 
+[endothelial_cells, endothelial_cells_names, "endothelial_cells"], 
+[myofibr_cells, myofibr_names, "myofibroblasts"],
+[b_cells, b_cells_names, "b_cells"],
+[plasma_cells, plasma_cells_names, "plasma_cells"],
+[cd4_T_cells, cd4_T_cells_names, "cd4_T_cells"],
+[cd8_T_cells, cd8_T_cells_names, "cd8_T_cells"],
+[macrophages, macrophages_names, "macrophages"]]  
+
+
+for l in data:
+    sc.pl.violin(scanpy_dataset, l[0], groupby='inferred_cell_type_-_ontology_labels', save="_markers_HCAD11_"+l[2]+".png", rotation=90, ylabel=l[1])
+
+
+    
+
+
+
+
+
+
+
+
+
+
+

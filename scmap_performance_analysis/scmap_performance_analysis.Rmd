@@ -75,6 +75,8 @@ table(per_cell)
 # how many correct annotations per metric? 
 print("Number of correctly assigned cells per metric: ")
 per_metric = apply(agreement, 2, sum)
+names(per_metric) = colnames(simls)[1:3]
+print(per_metric)
 
 ```
 It can be seen that, even though similairy metrics are low in many cases, the actual assigned cell types are correct more often. Cosine similarity has the lowest accuracy among the methods. 
@@ -97,6 +99,25 @@ print(paste0("Number of cells with incorrect assignment and not labelled 'not av
 ```
 
 ![](data/scmap_output.png)
+
+## What is the lowest similarity value at which there is still correct assignment?
+```{r, echo=TRUE}
+correct_assignments = tmp[(tmp$per_cell>=2),]
+correct_siml_scores = simls[row.names(correct_assignments),]
+
+min(correct_siml_scores)
+mean(correct_siml_scores$cosine)
+mean(correct_siml_scores$pearson)
+mean(correct_siml_scores$spearman)
+
+nrow(correct_siml_scores[correct_siml_scores$cosine>0.7,])
+
+
+```
+
+
+
+
 
 
 ### Conclusion 

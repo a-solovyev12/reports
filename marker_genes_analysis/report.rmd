@@ -1,0 +1,97 @@
+---
+title: "ASCT marker genes analysis"
+output: html_document
+---
+
+## Context
+The performance of scRNAseq classification tools that are based on marker genes (e.g. `scina` or `cellassign`) has not been as good as expected. Whereas `scina` demonstrated good results when self-projecting (using markers derived from given dataset to classify its own cells showed >70% match), running it with ASCT tables or marker genes from CellMarker database showed poor performance. Possible reasons for low accuracy include mismatch of cell types across expression data and marker tables, inaccurate annotations in the Atlas, and incorrectly selected markers in ASCT tables.
+
+The aim of this analysis is to determine how accurate the ASCT markers are using 3 different human gut scRNAseq datasets from SCXA. 
+
+
+## Methods 
+Three datasets were used: `E-GEOD-125970`, `E-HCAD-11`, and `E-MTAB-8410`. 
+Two separate sources of evidence were used: violin plots and marker gene p-values generated from scanpy. 
+
+
+### Violin plots
+Plots were generated for each group of marker genes from ASCT tables across each dataset. The following function from scanpy was used: `sc.pl.violin`. 
+
+#### Marker gene p-values 
+Scanpy command `scanpy-find-markers` was used to generate marker p-values for *all* genes in *each* cell type across the three datasets. In other words, these tables contained all combinations of genes and corresponding cell types, including non-significant hits. The tables were then merged with ASCT markers and intersection in terms of genes found. The resulting tables were then inspected. The focus was on finding cases where significant markers represent a correct cell type as well as cases when correct cell type for a marker gene is non-significant. Marker genes were classified into three groups: Matched genes (those with the best p-value representing "true" cell type), Mismatched genes (best p-value shows incorrect cell type, but there is still a correct, less significant match), No-match genes (no significant cell type present).
+
+## Results 
+
+Below are shown which genes were matched to SCXA data with high, low, and no specificity (failure to match). Further, the mismatches are shown for genes which are non-significant (shown as `gene name` | `tlas cell type` | `ASCT cell type` | `scanpy p-value`) together with corresponding violin plots. 
+
+
+### E-GEOD-125970
+In total, the tables had 38 marker genes across 15 cell types (after filtering out duplicates). 
+Of these genes, none were absolutely specific matches, however, in the majority of cases the most significant values for a gene showed a correct match.
+
+- Matched genes (11): ASCL2, BEST4, BIRC3, CD36, CRYBA2, ITLN1, LGR5, LYZ, MUC2, MYL9, SI.
+
+- Mismatched genes (5): CA7, CDHR1, DEFA5, NEURL1, SLC26A2.
+
+- No match found (20): ACTG2, CA2, CD14, CD2, CD3D, CD4, CD8A, CLCA4, COL6A1, COL6A2, DES, IGLL5, IRF7, MGLL, MKI67, MS4A1, PAX5, SELENBP1, TAGLN, TP53I3.
+
+
+
+
+- BIRC3 | epithelial progenitor cell of small intestine | epithelial stem cells | 0.69  
+![](./figures/GEOD125970/BIRC3_geod125970_stem_cells.png)
+
+- CA7 | enterocyte of epithelium of large intestine | enterocytes | 0.36  
+![](./figures/GEOD125970/CA7_enterocytes.png)
+- BEST4 | enterocyte of epithelium of large intestine | enterocytes | 0.065  
+![](./figures/GEOD125970/BEST4_enterocytes.png)
+
+
+### E-HCAD-11 
+
+- Matched genes (8): ACTG2, ASCL2, CA2, CD14, CD2, CD3D, IGLL5, MGLL
+
+- Mismatched genes (5): CD36, CD4, CD8A, MYL9, TAGLN
+
+- No match found (17): BEST4, BIRC3, CA7, CLCA4, COL6A1, COL6A2, DES, IRF7, LGR5, LYZ, MKI67, MS4A1, MUC2, NEURL1, SELENBP1, SI, TP53I3
+
+
+- TP53I3 | myofibroblast cell | myofibroblasts | 0.24 
+- DES	| myofibroblast cell | myofibroblasts | 0.24 
+
+### E-MTAB-8410  
+
+- Matched genes (17): ACTG2, ASCL2, BEST4, BIRC3, CA2, CA7, CD14, CD2, CD3D, CDHR1, DES, IGLL5, ITLN1, MS4A1, MUC2, PAX5, SI.      
+- Mismatched genes (7): BIRC3, CD36, CD4, CD8A, COL6A1, COL6A2, LGR5.       
+- No match found (13): CLCA4, CRYBA2, DEFA5, IRF7, LYZ, MGLL, MKI67, MYL9, NEURL1, SELENBP1, SLC26A2, TAGLN, TP53I3.  
+
+### Incorrect matches: 
+- PAX5 | plasma cell | B cells | 0.89  
+![](./figures/MTAB8410/PAX5_b_cells.png)
+
+- BEST4 | epithelial cell of large intestine | enterocytes | 0.82  
+![](./figures/MTAB8410/Best4_enterocytes.png)
+
+- CLCA4 | goblet cell | goblet   
+![](./figures/MTAB8410/CLCA4_goblet_cells.png)
+
+- MS4A1 | plasma cell | B cell    
+![](./figures/MTAB8410/MS4A1_b_cells.png)
+
+- IGLL5 | plasma cell | plasma   
+![](./figures/MTAB8410/violin_markers_MTAB8410_plasma_cells.png)
+
+- SLC26A2 | goblet cell | goblet   
+
+![](./figures/MTAB8410/SLC26A2_goblet.png)
+
+
+
+
+
+
+
+
+
+
+

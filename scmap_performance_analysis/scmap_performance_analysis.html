@@ -438,7 +438,12 @@ print(&quot;Number of cells per number of correct annotations: &quot;)</code></p
 <pre class="r"><code># how many correct annotations per metric? 
 print(&quot;Number of correctly assigned cells per metric: &quot;)</code></pre>
 <pre><code>## [1] &quot;Number of correctly assigned cells per metric: &quot;</code></pre>
-<pre class="r"><code>per_metric = apply(agreement, 2, sum)</code></pre>
+<pre class="r"><code>per_metric = apply(agreement, 2, sum)
+names(per_metric) = colnames(simls)[1:3]
+table(per_metric)</code></pre>
+<pre><code>## per_metric
+## 29062 36560 36726 
+##     1     1     1</code></pre>
 <p>It can be seen that, even though similairy metrics are low in many cases, the actual assigned cell types are correct more often. Cosine similarity has the lowest accuracy among the methods.</p>
 </div>
 <div id="analysis-of-incorrectly-assigned-cells" class="section level4">

@@ -121,7 +121,7 @@ table(mel_sce_cluster$combined_labs)
 ```
 
 * Compare assigned and predicted cell types for individual cells: 
-![cell projections table](data/table.png)
+![cell projections table](data/table.png) 
 
 
 * Cell-level projections 
